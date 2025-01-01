@@ -251,9 +251,16 @@
     <div id="scan-output"></div>
     <div id="cursor"></div>
     <div class="audio-container">
-        <audio src="https://cdn.prinsh.com/data-1/mp3/best-hacker-music.mp3" autoplay loop></audio>
+        <audio id="background-audio" src="https://cdn.prinsh.com/data-1/mp3/best-hacker-music.mp3" autoplay loop></audio>
     </div>
     <script>
+        // Ensure the audio plays continuously
+        const audio = document.getElementById('background-audio');
+        audio.volume = 1.0;
+        audio.play().catch(error => {
+            console.error('Error playing audio:', error);
+        });
+
         // Matrix Rain Effect
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
