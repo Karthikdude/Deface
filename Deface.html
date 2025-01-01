@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hacked By Karthik - For Proof of Concept">
+    <meta name="author" content="Karthik">
+    <meta property="og:title" content="Hacked By Karthik - For Proof of Concept">
+    <meta property="og:image" content="https://cdn.prinsh.com/data-1/images/NathanPrinsley-AnonymousLogo.png">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Haxor Uploader">
+    <link rel="shortcut icon" type="image/x-icon" href="https://cdn.prinsh.com/data-1/images/NathanPrinsley-AnonymousLogo.png">
+    <title>Hacked By Karthik - For Proof of Concept</title>
+    <style>
+        body {
+            background: black;
+            color: #00eb00;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            cursor: url('https://cdn.example.com/crosshair-cursor.png'), auto;
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+            pointer-events: none;
+            animation: flicker 0.15s infinite;
+        }
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        .container {
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        h1 {
+            font-size: 3em;
+            animation: glitch 1s infinite;
+            color: #fff;
+        }
+        h2 {
+            font-size: 2em;
+            animation: glitch 1s infinite;
+        }
+        .message {
+            font-size: 1.5em;
+            animation: typing 2s steps(40, end), blink-caret .75s step-end infinite;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: .15em solid #00eb00;
+            width: 0;
+        }
+        @keyframes glitch {
+            0%, 100% { text-shadow: 0.05em 0 0 red, -0.05em 0 0 blue, 0 0 0.05em green; }
+            25% { text-shadow: 0.05em 0 0 blue, -0.05em 0 0 green, 0 0 0.05em red; }
+            50% { text-shadow: 0.05em 0 0 green, -0.05em 0 0 red, 0 0 0.05em blue; }
+            75% { text-shadow: 0.05em 0 0 red, -0.05em 0 0 blue, 0 0 0.05em green; }
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #00eb00; }
+        }
+        .marquee {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #000;
+            color: #00eb00;
+            padding: 10px 0;
+            font-size: 1.2em;
+            animation: marquee 10s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        #terminal {
+            font-family: 'Courier New', Courier, monospace;
+            background: black;
+            color: #00ff00;
+            padding: 20px;
+            height: 200px;
+            overflow-y: scroll;
+            border: 2px solid #00ff00;
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 300px;
+        }
+        #countdown {
+            font-size: 2em;
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
+        #matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        #logs {
+            background: black;
+            color: lime;
+            height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid lime;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 300px;
+        }
+        #data-leak {
+            color: red;
+            font-family: monospace;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 300px;
+        }
+        #ip-display {
+            font-family: monospace;
+            color: lime;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        #self-destruct {
+            color: red;
+            font-size: 1.5em;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+        }
+        #scan-output {
+            color: lime;
+            font-family: monospace;
+            position: absolute;
+            top: 100px;
+            left: 10px;
+        }
+        #cursor {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: red;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: #00eb00;
+            padding: 20px;
+            border: 2px solid #00eb00;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.5em;
+            z-index: 10000;
+            animation: popup-anim 0.5s ease-in-out;
+        }
+        @keyframes popup-anim {
+            0% { opacity: 0; transform: translate(-50%, -60%); }
+            100% { opacity: 1; transform: translate(-50%, -50%); }
+        }
+        .glitch-text {
+            animation: glitch-text-anim 2s infinite;
+        }
+        @keyframes glitch-text-anim {
+            0%, 100% { text-shadow: 0.05em 0 0 red, -0.05em 0 0 blue, 0 0 0.05em green; }
+            25% { text-shadow: 0.05em 0 0 blue, -0.05em 0 0 green, 0 0 0.05em red; }
+            50% { text-shadow: 0.05em 0 0 green, -0.05em 0 0 red, 0 0 0.05em blue; }
+            75% { text-shadow: 0.05em 0 0 red, -0.05em 0 0 blue, 0 0 0.05em green; }
+        }
+        .redirect-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: #00eb00;
+            padding: 20px;
+            border: 2px solid #00eb00;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.5em;
+            z-index: 10000;
+            text-align: center;
+        }
+        .redirect-popup button {
+            background: #00eb00;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .redirect-popup button:hover {
+            background: #00ff00;
+        }
+        .audio-container {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10001;
+        }
+        .audio-container audio {
+            display: block;
+            width: 100%;
+            height: auto;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    <div class="container">
+        <img src="https://cdn.prinsh.com/data-1/images/NathanPrinsley-AnonymousLogo.png" alt="Anonymous Logo" style="width: 20%;">
+        <h1>Hacked By Karthik</h1>
+        <h2>For Proof of Concept</h2>
+        <p class="message">We are anonymous. We are legion. We do not forgive. We do not forget. Expect us.</p>
+        <div id="countdown"></div>
+    </div>
+    <div class="marquee">Hacked By Karthik - For Proof of Concept - Hacked By Karthik - For Proof of Concept</div>
+    <div id="terminal"></div>
+    <div id="logs"></div>
+    <ul id="data-leak"></ul>
+    <div id="ip-display"></div>
+    <div id="self-destruct"></div>
+    <div id="scan-output"></div>
+    <div id="cursor"></div>
+    <div class="audio-container">
+        <audio src="https://cdn.prinsh.com/data-1/mp3/best-hacker-music.mp3" autoplay loop></audio>
+    </div>
+    <script>
+        // Matrix Rain Effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(0);
+
+        const draw = () => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0F0';
+            ctx.font = `${fontSize}px monospace`;
+
+            drops.forEach((y, x) => {
+                const text = String.fromCharCode(0x30A0 + Math.random() * 96);
+                ctx.fillText(text, x * fontSize, y * fontSize);
+                drops[x] = y * fontSize > canvas.height && Math.random() > 0.975 ? 0 : y + 1;
+            });
+        };
+
+        setInterval(draw, 33);
+
+        // Terminal Simulation
+        const terminal = document.getElementById('terminal');
+        const commands = [
+            "Connecting to target...",
+            "Bypassing firewall...",
+            "Accessing database...",
+            "Extracting sensitive data...",
+            "Deploying malware...",
+            "Session terminated."
+        ];
+        let index = 0;
+
+        setInterval(() => {
+            if (index < commands.length) {
+                const p = document.createElement('p');
+                p.textContent = `$ ${commands[index++]}`;
+                terminal.appendChild(p);
+                terminal.scrollTop = terminal.scrollHeight;
+            }
+        }, 2000);
+
+        // Countdown Timer
+        let time = 65; // seconds
+        const countdown = document.getElementById('countdown');
+        const timerInterval = setInterval(() => {
+            if (time > 0) {
+                countdown.textContent = `Time Remaining: ${time--} seconds`;
+            } else {
+                countdown.textContent = "System Compromised!";
+                clearInterval(timerInterval);
+
+                // Go full screen
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+
+                // Trigger effects after timer goes off
+                setTimeout(() => {
+                    // Fake "System Breach" Message
+                    document.body.innerHTML = `<div style="color: red; font-size: 3em; text-align: center; background: black; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center;">SYSTEM BREACHED!</div>`;
+                    new Audio('https://example.com/alarm-sound.mp3').play();
+                }, 0);
+
+                setTimeout(() => {
+                    // Fake Blue Screen of Death (BSOD)
+                    document.body.style.backgroundColor = 'blue';
+                    document.body.innerHTML = `<div style="color: white; font-family: monospace; font-size: 2em; text-align: center; padding: 20%; line-height: 1.5;">A problem has been detected and Windows has been shut down to prevent damage to your computer.<br><br>Technical information:<br>*** STOP: 0x00000001 (0x00000000, 0x00000000, 0x00000000, 0x00000000)</div>`;
+                    setTimeout(() => {
+                        document.body.style.backgroundColor = 'black';
+                    }, 30000);
+                }, 3000);
+
+                setTimeout(() => {
+                    // Sudden Camera Flash (Permission Needed)
+                    showPopup("Picture taken successfully!");
+                    // Simulate a camera flash
+                    document.body.style.backgroundColor = 'white';
+                    setTimeout(() => document.body.style.backgroundColor = 'black', 100);
+                }, 6000);
+
+                setTimeout(() => {
+                    // Exploding Screen Effect
+                    document.body.innerHTML = `<div style="position: absolute; width: 100vw; height: 100vh; background: black; color: red; font-size: 3em; text-align: center; display: flex; align-items: center; justify-content: center;">BOOM!</div>`;
+                    setTimeout(() => showPopup("Just Kidding!"), 2000);
+                }, 9000);
+
+                setTimeout(() => {
+                    // Confetti Explosion
+                    const confettiScript = document.createElement('script');
+                    confettiScript.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti';
+                    document.body.appendChild(confettiScript);
+                    confettiScript.onload = () => {
+                        confetti();
+                        setTimeout(() => showPopup("Surprise!"), 2000);
+                    };
+                }, 12000);
+
+                setTimeout(() => {
+                    // Flip the Screen Upside Down
+                    document.body.style.transform = 'rotate(180deg)';
+                }, 15000);
+
+                setTimeout(() => {
+                    // Endless Popups
+                    for (let i = 0; i < 10; i++) {
+                        setTimeout(() => {
+                            showPopup("You have been hacked!");
+                        }, i * 500);
+                    }
+                }, 18000);
+
+                setTimeout(() => {
+                    // Fake Virus Scan
+                    showPopup("Scanning system for threats...");
+                    setTimeout(() => showPopup("Threat detected: ransomware.exe"), 2000);
+                    setTimeout(() => showPopup("Threat detected: trojan.horse"), 4000);
+                    setTimeout(() => showPopup("System compromised!"), 6000);
+                }, 23000);
+
+                setTimeout(() => {
+                    // Lights Out
+                    let opacity = 1;
+                    const interval = setInterval(() => {
+                        opacity -= 0.05;
+                        document.body.style.backgroundColor = `rgba(0, 0, 0, ${opacity})`;
+                        if (opacity <= 0) clearInterval(interval);
+                    }, 100);
+                }, 29000);
+
+                setTimeout(() => {
+                    // Fake Terminal Lockdown
+                    document.body.innerHTML = `<div style="background: black; color: green; font-family: monospace; font-size: 1.5em; padding: 10px;">Access Denied.<br>System locked.<br>Contact administrator to regain access.</div>`;
+                }, 32000);
+
+                setTimeout(() => {
+                    // Inverted Colors
+                    document.body.style.filter = 'invert(1)';
+                }, 35000);
+
+                setTimeout(() => {
+                    // Fake Bitcoin Wallet Draining
+                    document.body.innerHTML = `<div style="color: white; background: black; font-family: monospace; font-size: 2em; padding: 20px;">Draining wallet...<br>BTC Balance: 0.0000</div>`;
+                }, 38000);
+
+                // Ask for Redirection
+                setTimeout(() => {
+                    const redirectPopup = document.createElement('div');
+                    redirectPopup.className = 'redirect-popup';
+                    redirectPopup.innerHTML = `
+                        <p>Do you want to be redirected to the same page?</p>
+                        <button onclick="redirectToSamePage()">Yes</button>
+                        <button onclick="redirectToSamePage()">Yes</button>
+                    `;
+                    document.body.appendChild(redirectPopup);
+                }, 41000);
+            }
+        }, 1000);
+
+        function redirectToSamePage() {
+            window.location.href = window.location.href;
+        }
+
+        // Popup Alerts
+        const hackerMessages = [
+            "Warning: Unauthorized Access Detected!",
+            "System Breach Imminent!",
+            "Data Corruption Detected!",
+            "Firewall Compromised!",
+            "Intrusion Detected!",
+            "Access Denied!",
+            "System Lockdown Initiated!",
+            "Virus Detected!",
+            "Malware Injection Successful!",
+            "Data Leak Detected!"
+        ];
+
+        function showPopup(message) {
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+            popup.innerHTML = `<p class="glitch-text">${message}</p>`;
+            document.body.appendChild(popup);
+            new Audio('https://example.com/alarm-sound.mp3').play();
+            setTimeout(() => {
+                popup.style.animation = 'popup-anim-reverse 0.5s ease-in-out forwards';
+                setTimeout(() => {
+                    document.body.removeChild(popup);
+                }, 500);
+            }, 3000);
+        }
+
+        setInterval(() => {
+            showPopup(hackerMessages[Math.floor(Math.random() * hackerMessages.length)]);
+        }, 10000);
+
+        // Error Injection
+        setInterval(() => {
+            const error = document.createElement('div');
+            error.textContent = "Critical Error: Data Corruption Detected!";
+            error.style.color = "red";
+            error.style.fontSize = "1.5em";
+            document.body.appendChild(error);
+        }, 5000);
+
+        // Simulated Intrusion Reports
+        const logs = document.getElementById('logs');
+        const actions = [
+            "Exploiting CVE-2023-XXXXX...",
+            "Accessing target IP: 192.168.1.100...",
+            "Decrypting AES-256 files...",
+            "Extracting credentials from /etc/passwd...",
+            "Deploying reverse shell...",
+            "Initiating DDoS attack on target node..."
+        ];
+
+        setInterval(() => {
+            const log = document.createElement('p');
+            log.textContent = actions[Math.floor(Math.random() * actions.length)];
+            logs.appendChild(log);
+            logs.scrollTop = logs.scrollHeight;
+        }, 3000);
+
+        // Data Leak Simulation
+        const leakedData = [
+            "Username: johndoe | Password: 1234abcd",
+            "SSN: 123-45-6789",
+            "Credit Card: 4111-1111-1111-1111 | CVV: 123",
+            "Bank Account: 987654321 | Routing: 123456789"
+        ];
+        setInterval(() => {
+            const list = document.getElementById('data-leak');
+            const item = document.createElement('li');
+            item.textContent = leakedData[Math.floor(Math.random() * leakedData.length)];
+            list.appendChild(item);
+        }, 5000);
+
+        // IP Spoofing Simulation
+        setInterval(() => {
+            const octet = () => Math.floor(Math.random() * 256);
+            const ip = `${octet()}.${octet()}.${octet()}.${octet()}`;
+            document.getElementById('ip-display').textContent = `Current IP: ${ip}`;
+        }, 2000);
+
+        // Self-Destruct Timer
+        const countdownElement = document.getElementById('self-destruct');
+        let timeLeft = 30; // seconds
+
+        const selfDestructTimer = setInterval(() => {
+            if (timeLeft > 0) {
+                countdownElement.textContent = `Data Self-Destruct in: ${timeLeft--}s`;
+            } else {
+                countdownElement.textContent = "Data Deleted!";
+                clearInterval(selfDestructTimer);
+            }
+        }, 1000);
+
+        // Keylogging Simulation
+        document.addEventListener('keydown', (e) => {
+            console.log(`Key pressed: ${e.key}`);
+        });
+
+        // File Scanning Animation
+        const files = ['passwords.txt', 'config.sys', 'bank_accounts.csv'];
+        let fileIndex = 0;
+        const scanInterval = setInterval(() => {
+            if (fileIndex >= files.length) {
+                clearInterval(scanInterval);
+                document.getElementById('scan-output').innerText = 'Scan Complete!';
+                return;
+            }
+            document.getElementById('scan-output').innerText = `Scanning: ${files[fileIndex++]}`;
+        }, 1000);
+
+        // Cursor Tracker
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.getElementById('cursor');
+            cursor.style.left = `${e.pageX}px`;
+            cursor.style.top = `${e.pageY}px`;
+        });
+
+        // Fake "Hacking" Interface
+        const terminalCommands = ['Connecting to target...', 'Bypassing firewall...', 'Accessing database...', 'Downloading data...'];
+        let cmdIndex = 0;
+        const terminalOutput = document.getElementById('terminal');
+
+        function typeCommand() {
+            if (cmdIndex < terminalCommands.length) {
+                terminalOutput.innerHTML += `<p>${terminalCommands[cmdIndex++]}</p>`;
+                setTimeout(typeCommand, 1500);
+            }
+        }
+        typeCommand();
+    </script>
+</body>
+</html>
