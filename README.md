@@ -1,6 +1,4 @@
-Certainly! Below is a `README.md` file that includes all the provided payloads along with the newly generated ones, each with detailed explanations:
-
-```markdown
+```
 # XSS Deface Payloads
 
 This repository contains various XSS (Cross-Site Scripting) deface payloads that can be used to load and execute external content. These payloads demonstrate different methods to achieve this, using various JavaScript techniques and libraries.
