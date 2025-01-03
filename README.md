@@ -14,7 +14,7 @@ This repository contains various XSS (Cross-Site Scripting) deface payloads that
 for (let script of scripts) { eval(script.innerText); } }); </script>
 ```
 
-**Details:** This payload fetches an external JavaScript file and executes it directly using `eval`. While this is a less secure approach, it is effective in environments where execution of external scripts is needed.
+**Details:** This payload fetches an external JavaScript file While this is a  secure approach, it is effective in environments where execution of external scripts is needed.
 
 ---
 
