@@ -1,4 +1,4 @@
-```
+
 # XSS Deface Payloads
 
 This repository contains various XSS (Cross-Site Scripting) deface payloads that can be used to load and execute external content. These payloads demonstrate different methods to achieve this, using various JavaScript techniques and libraries.
