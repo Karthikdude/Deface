@@ -102,20 +102,6 @@
             left: 10px;
             width: 300px;
         }
-        #countdown {
-            font-size: 2em;
-            color: red;
-            text-align: center;
-            margin-top: 20px;
-        }
-        #matrix {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
         #logs {
             background: black;
             color: lime;
@@ -128,34 +114,13 @@
             right: 10px;
             width: 300px;
         }
-        #data-leak {
-            color: red;
-            font-family: monospace;
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            width: 300px;
-        }
-        #ip-display {
-            font-family: monospace;
-            color: lime;
-            position: absolute;
-            top: 10px;
-            left: 10px;
-        }
-        #self-destruct {
-            color: red;
-            font-size: 1.5em;
-            position: absolute;
-            top: 50px;
-            left: 10px;
-        }
-        #scan-output {
-            color: lime;
-            font-family: monospace;
-            position: absolute;
-            top: 100px;
-            left: 10px;
+        #matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
         #cursor {
             position: absolute;
@@ -164,59 +129,6 @@
             background: red;
             border-radius: 50%;
             pointer-events: none;
-        }
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.9);
-            color: #00eb00;
-            padding: 20px;
-            border: 2px solid #00eb00;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1.5em;
-            z-index: 10000;
-            animation: popup-anim 0.5s ease-in-out;
-        }
-        @keyframes popup-anim {
-            0% { opacity: 0; transform: translate(-50%, -60%); }
-            100% { opacity: 1; transform: translate(-50%, -50%); }
-        }
-        .glitch-text {
-            animation: glitch-text-anim 2s infinite;
-        }
-        @keyframes glitch-text-anim {
-            0%, 100% { text-shadow: 0.05em 0 0 red, -0.05em 0 0 blue, 0 0 0.05em green; }
-            25% { text-shadow: 0.05em 0 0 blue, -0.05em 0 0 green, 0 0 0.05em red; }
-            50% { text-shadow: 0.05em 0 0 green, -0.05em 0 0 red, 0 0 0.05em blue; }
-            75% { text-shadow: 0.05em 0 0 red, -0.05em 0 0 blue, 0 0 0.05em green; }
-        }
-        .redirect-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.9);
-            color: #00eb00;
-            padding: 20px;
-            border: 2px solid #00eb00;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1.5em;
-            z-index: 10000;
-            text-align: center;
-        }
-        .redirect-popup button {
-            background: #00eb00;
-            color: black;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px;
-            cursor: pointer;
-            font-size: 1em;
-        }
-        .redirect-popup button:hover {
-            background: #00ff00;
         }
         .audio-container {
             position: fixed;
@@ -239,16 +151,12 @@
         <img src="https://cdn.prinsh.com/data-1/images/NathanPrinsley-AnonymousLogo.png" alt="Anonymous Logo" style="width: 20%;">
         <h1>Hacked By Karthik</h1>
         <h2>For Proof of Concept</h2>
-        <p class="message">We are anonymous. We are legion. We do not forgive. We do not forget. Expect us.</p>
-        <div id="countdown"></div>
+        <h2> <a href="https://karthik-s-sathyan.vercel.app" style="text-decoration: none; color: whitesmoke;">Contact</a></h2>
+
     </div>
-    <div class="marquee">Hacked By Karthik - For Proof of Concept - Hacked By Karthik - For Proof of Concept</div>
+    <div class="marquee">Hacked By Karthik S Sathyan- For Proof of Concept - Hacked By Karthik S Sathyan- For Proof of Concept</div>
     <div id="terminal"></div>
     <div id="logs"></div>
-    <ul id="data-leak"></ul>
-    <div id="ip-display"></div>
-    <div id="self-destruct"></div>
-    <div id="scan-output"></div>
     <div id="cursor"></div>
     <div class="audio-container">
         <audio id="background-audio" src="https://cdn.prinsh.com/data-1/mp3/best-hacker-music.mp3" autoplay loop></audio>
@@ -286,257 +194,80 @@
 
         setInterval(draw, 33);
 
-        // Terminal Simulation
-        const terminal = document.getElementById('terminal');
-        const commands = [
-            "Connecting to target...",
-            "Bypassing firewall...",
-            "Accessing database...",
-            "Extracting sensitive data...",
-            "Deploying malware...",
-            "Session terminated."
-        ];
-        let index = 0;
+        // Function to fetch and display user details in the terminal
+        async function fetchUserDetails() {
+            const terminalDiv = document.getElementById('terminal');
+            let publicIp = 'Unknown';
 
-        setInterval(() => {
-            if (index < commands.length) {
-                const p = document.createElement('p');
-                p.textContent = `$ ${commands[index++]}`;
-                terminal.appendChild(p);
-                terminal.scrollTop = terminal.scrollHeight;
+            try {
+                // Fetch public IP using ipify
+                let ipResponse = await fetch('https://api.ipify.org?format=json');
+                if (ipResponse.ok) {
+                    let ipData = await ipResponse.json();
+                    publicIp = ipData.ip;
+                    terminalDiv.innerHTML = `<p>$ IP Address: ${publicIp}</p>`;
+                } else {
+                    throw new Error(`IP API error: ${ipResponse.statusText}`);
+                }
+            } catch (error) {
+                terminalDiv.innerHTML = `<p>$ Error fetching IP address: ${error.message}</p>`;
+                console.error('Error fetching IP address:', error);
             }
-        }, 2000);
 
-        // Countdown Timer
-        let time = 65; // seconds
-        const countdown = document.getElementById('countdown');
-        const timerInterval = setInterval(() => {
-            if (time > 0) {
-                countdown.textContent = `Time Remaining: ${time--} seconds`;
-            } else {
-                countdown.textContent = "System Compromised!";
-                clearInterval(timerInterval);
+            // Attempt to fetch geolocation details using multiple APIs
+            try {
+                let geoData = await fetchGeolocationDetails(publicIp);
+                displayUserDetails(publicIp, geoData);
+            } catch (error) {
+                terminalDiv.innerHTML += `<p>$ Error fetching geolocation details: ${error.message}</p>`;
+                console.error('Error fetching geolocation details:', error);
+            }
+        }
 
-                // Go full screen
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-                });
+        async function fetchGeolocationDetails(ip) {
+            const apis = [
+                `https://ipinfo.io/${ip}/json`,
+                `https://freegeoip.app/json/${ip}`,
+                `https://ipapi.co/${ip}/json/`,
+                `https://api.bigdatacloud.net/data/ip-geolocation?ip=${ip}&key=YOUR_API_KEY` // Replace with your actual API key
+            ];
 
-                // Trigger effects after timer goes off
-                setTimeout(() => {
-                    // Fake "System Breach" Message
-                    document.body.innerHTML = `<div style="color: red; font-size: 3em; text-align: center; background: black; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center;">SYSTEM BREACHED!</div>`;
-                    new Audio('https://example.com/alarm-sound.mp3').play();
-                }, 0);
-
-                setTimeout(() => {
-                    // Fake Blue Screen of Death (BSOD)
-                    document.body.style.backgroundColor = 'blue';
-                    document.body.innerHTML = `<div style="color: white; font-family: monospace; font-size: 2em; text-align: center; padding: 20%; line-height: 1.5;">A problem has been detected and Windows has been shut down to prevent damage to your computer.<br><br>Technical information:<br>*** STOP: 0x00000001 (0x00000000, 0x00000000, 0x00000000, 0x00000000)</div>`;
-                    setTimeout(() => {
-                        document.body.style.backgroundColor = 'black';
-                    }, 30000);
-                }, 3000);
-
-                setTimeout(() => {
-                    // Sudden Camera Flash (Permission Needed)
-                    showPopup("Picture taken successfully!");
-                    // Simulate a camera flash
-                    document.body.style.backgroundColor = 'white';
-                    setTimeout(() => document.body.style.backgroundColor = 'black', 100);
-                }, 6000);
-
-                setTimeout(() => {
-                    // Exploding Screen Effect
-                    document.body.innerHTML = `<div style="position: absolute; width: 100vw; height: 100vh; background: black; color: red; font-size: 3em; text-align: center; display: flex; align-items: center; justify-content: center;">BOOM!</div>`;
-                    setTimeout(() => showPopup("Just Kidding!"), 2000);
-                }, 9000);
-
-                setTimeout(() => {
-                    // Confetti Explosion
-                    const confettiScript = document.createElement('script');
-                    confettiScript.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti';
-                    document.body.appendChild(confettiScript);
-                    confettiScript.onload = () => {
-                        confetti();
-                        setTimeout(() => showPopup("Surprise!"), 2000);
-                    };
-                }, 12000);
-
-                setTimeout(() => {
-                    // Flip the Screen Upside Down
-                    document.body.style.transform = 'rotate(180deg)';
-                }, 15000);
-
-                setTimeout(() => {
-                    // Endless Popups
-                    for (let i = 0; i < 10; i++) {
-                        setTimeout(() => {
-                            showPopup("You have been hacked!");
-                        }, i * 500);
+            for (let api of apis) {
+                try {
+                    let response = await fetch(api);
+                    if (response.ok) {
+                        let data = await response.json();
+                        return data;
                     }
-                }, 18000);
-
-                setTimeout(() => {
-                    // Fake Virus Scan
-                    showPopup("Scanning system for threats...");
-                    setTimeout(() => showPopup("Threat detected: ransomware.exe"), 2000);
-                    setTimeout(() => showPopup("Threat detected: trojan.horse"), 4000);
-                    setTimeout(() => showPopup("System compromised!"), 6000);
-                }, 23000);
-
-                setTimeout(() => {
-                    // Lights Out
-                    let opacity = 1;
-                    const interval = setInterval(() => {
-                        opacity -= 0.05;
-                        document.body.style.backgroundColor = `rgba(0, 0, 0, ${opacity})`;
-                        if (opacity <= 0) clearInterval(interval);
-                    }, 100);
-                }, 29000);
-
-                setTimeout(() => {
-                    // Fake Terminal Lockdown
-                    document.body.innerHTML = `<div style="background: black; color: green; font-family: monospace; font-size: 1.5em; padding: 10px;">Access Denied.<br>System locked.<br>Contact administrator to regain access.</div>`;
-                }, 32000);
-
-                setTimeout(() => {
-                    // Inverted Colors
-                    document.body.style.filter = 'invert(1)';
-                }, 35000);
-
-                setTimeout(() => {
-                    // Fake Bitcoin Wallet Draining
-                    document.body.innerHTML = `<div style="color: white; background: black; font-family: monospace; font-size: 2em; padding: 20px;">Draining wallet...<br>BTC Balance: 0.0000</div>`;
-                }, 38000);
-
-                // Ask for Redirection
-                setTimeout(() => {
-                    const redirectPopup = document.createElement('div');
-                    redirectPopup.className = 'redirect-popup';
-                    redirectPopup.innerHTML = `
-                        <p>Do you want to be redirected to the same page?</p>
-                        <button onclick="redirectToSamePage()">Yes</button>
-                        <button onclick="redirectToSamePage()">Yes</button>
-                    `;
-                    document.body.appendChild(redirectPopup);
-                }, 41000);
+                } catch (error) {
+                    console.error(`Error with API ${api}:`, error);
+                }
             }
-        }, 1000);
-
-        function redirectToSamePage() {
-            window.location.href = window.location.href;
+            throw new Error('All geolocation APIs failed.');
         }
 
-        // Popup Alerts
-        const hackerMessages = [
-            "Warning: Unauthorized Access Detected!",
-            "System Breach Imminent!",
-            "Data Corruption Detected!",
-            "Firewall Compromised!",
-            "Intrusion Detected!",
-            "Access Denied!",
-            "System Lockdown Initiated!",
-            "Virus Detected!",
-            "Malware Injection Successful!",
-            "Data Leak Detected!"
-        ];
+        function displayUserDetails(publicIp, geoData) {
+            const terminalDiv = document.getElementById('terminal');
+            const location = [geoData.latitude || geoData.lat || 'Unknown', geoData.longitude || geoData.lon || 'Unknown'];
+            const latitude = location[0];
+            const longitude = location[1];
+            const org = geoData.org || geoData.organization || 'Unknown';
+            const city = geoData.city || 'Unknown';
+            const region = geoData.region || geoData.region_name || 'Unknown';
+            const country = geoData.country || geoData.country_name || 'Unknown';
 
-        function showPopup(message) {
-            const popup = document.createElement('div');
-            popup.className = 'popup';
-            popup.innerHTML = `<p class="glitch-text">${message}</p>`;
-            document.body.appendChild(popup);
-            new Audio('https://example.com/alarm-sound.mp3').play();
-            setTimeout(() => {
-                popup.style.animation = 'popup-anim-reverse 0.5s ease-in-out forwards';
-                setTimeout(() => {
-                    document.body.removeChild(popup);
-                }, 500);
-            }, 3000);
+            terminalDiv.innerHTML = `
+                <p>$ IP Address: ${publicIp}</p>
+                <p>$ Location: ${latitude}, ${longitude}</p>
+                <p>$ Organization: ${org}</p>
+                <p>$ City: ${city}</p>
+                <p>$ Region: ${region}</p>
+                <p>$ Country: ${country}</p>
+            `;
         }
 
-        setInterval(() => {
-            showPopup(hackerMessages[Math.floor(Math.random() * hackerMessages.length)]);
-        }, 10000);
-
-        // Error Injection
-        setInterval(() => {
-            const error = document.createElement('div');
-            error.textContent = "Critical Error: Data Corruption Detected!";
-            error.style.color = "red";
-            error.style.fontSize = "1.5em";
-            document.body.appendChild(error);
-        }, 5000);
-
-        // Simulated Intrusion Reports
-        const logs = document.getElementById('logs');
-        const actions = [
-            "Exploiting CVE-2023-XXXXX...",
-            "Accessing target IP: 192.168.1.100...",
-            "Decrypting AES-256 files...",
-            "Extracting credentials from /etc/passwd...",
-            "Deploying reverse shell...",
-            "Initiating DDoS attack on target node..."
-        ];
-
-        setInterval(() => {
-            const log = document.createElement('p');
-            log.textContent = actions[Math.floor(Math.random() * actions.length)];
-            logs.appendChild(log);
-            logs.scrollTop = logs.scrollHeight;
-        }, 3000);
-
-        // Data Leak Simulation
-        const leakedData = [
-            "Username: johndoe | Password: 1234abcd",
-            "SSN: 123-45-6789",
-            "Credit Card: 4111-1111-1111-1111 | CVV: 123",
-            "Bank Account: 987654321 | Routing: 123456789"
-        ];
-        setInterval(() => {
-            const list = document.getElementById('data-leak');
-            const item = document.createElement('li');
-            item.textContent = leakedData[Math.floor(Math.random() * leakedData.length)];
-            list.appendChild(item);
-        }, 5000);
-
-        // IP Spoofing Simulation
-        setInterval(() => {
-            const octet = () => Math.floor(Math.random() * 256);
-            const ip = `${octet()}.${octet()}.${octet()}.${octet()}`;
-            document.getElementById('ip-display').textContent = `Current IP: ${ip}`;
-        }, 2000);
-
-        // Self-Destruct Timer
-        const countdownElement = document.getElementById('self-destruct');
-        let timeLeft = 30; // seconds
-
-        const selfDestructTimer = setInterval(() => {
-            if (timeLeft > 0) {
-                countdownElement.textContent = `Data Self-Destruct in: ${timeLeft--}s`;
-            } else {
-                countdownElement.textContent = "Data Deleted!";
-                clearInterval(selfDestructTimer);
-            }
-        }, 1000);
-
-        // Keylogging Simulation
-        document.addEventListener('keydown', (e) => {
-            console.log(`Key pressed: ${e.key}`);
-        });
-
-        // File Scanning Animation
-        const files = ['passwords.txt', 'config.sys', 'bank_accounts.csv'];
-        let fileIndex = 0;
-        const scanInterval = setInterval(() => {
-            if (fileIndex >= files.length) {
-                clearInterval(scanInterval);
-                document.getElementById('scan-output').innerText = 'Scan Complete!';
-                return;
-            }
-            document.getElementById('scan-output').innerText = `Scanning: ${files[fileIndex++]}`;
-        }, 1000);
+        // Fetch user details when the page loads
+        fetchUserDetails();
 
         // Cursor Tracker
         document.addEventListener('mousemove', (e) => {
@@ -545,18 +276,26 @@
             cursor.style.top = `${e.pageY}px`;
         });
 
-        // Fake "Hacking" Interface
-        const terminalCommands = ['Connecting to target...', 'Bypassing firewall...', 'Accessing database...', 'Downloading data...'];
-        let cmdIndex = 0;
-        const terminalOutput = document.getElementById('terminal');
+        // Simulate captured user details in the logs div
+        const logsDiv = document.getElementById('logs');
+        const logMessages = [
+            "  $ Captured User Details ",
+            "  $ Sending to Orionate server...",
+            "  $ Extracting sensitive data...",
+            "  $ Decrypting files...",
+            "  $ Accessing database...",
+            "  $ Deploying malware...",
+            "  $ Data transfer in progress..."
+        ];
 
-        function typeCommand() {
-            if (cmdIndex < terminalCommands.length) {
-                terminalOutput.innerHTML += `<p>${terminalCommands[cmdIndex++]}</p>`;
-                setTimeout(typeCommand, 1500);
-            }
-        }
-        typeCommand();
+        logMessages.forEach((message, index) => {
+            setTimeout(() => {
+                const logEntry = document.createElement('p');
+                logEntry.textContent = message;
+                logsDiv.appendChild(logEntry);
+                logsDiv.scrollTop = logsDiv.scrollHeight;
+            }, index * 2000); // Stagger messages every 2 seconds
+        });
     </script>
 </body>
 </html>
